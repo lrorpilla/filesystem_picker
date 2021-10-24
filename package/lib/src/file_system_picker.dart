@@ -484,6 +484,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
         items: items,
         isRoot: (directory!.absolute.path == rootDirectory!.absolutePath),
         rootDirectory: directory!,
+        rootDirectories: widget.rootDirectories,
         multiSelect: widget.multiSelect,
         fsType: widget.fsType,
         folderIconColor: widget.folderIconColor,
@@ -497,6 +498,14 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
             if (widget.multiSelect == false) {
               selectedPaths.clear();
               selectedPaths[path] = itemType;
+
+              if (widget.fsType == FilesystemType.file) {
+                if (!permissionRequesting &&
+                    permissionAllowed &&
+                    selectedPaths.isNotEmpty) {
+                  Navigator.pop(context, selectedPaths.keys);
+                }
+              }
             } else {
               if (isSelected) {
                 selectedPaths.remove(path);
@@ -509,6 +518,10 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
   }
 
   Widget _buildBottomButtons(BuildContext context) {
+    if (widget.fsType == FilesystemType.file && !widget.multiSelect) {
+      return SizedBox.shrink();
+    }
+
     return BottomAppBar(
       color: (widget.themeData ?? Theme.of(context)).primaryColor,
       child: Container(

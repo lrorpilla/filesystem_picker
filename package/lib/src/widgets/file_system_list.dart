@@ -22,6 +22,7 @@ class FilesystemList extends StatelessWidget {
   final bool multiSelect;
   final ThemeData? themeData;
   final TextDirection? textDirection;
+  final List<Directory> rootDirectories;
 
   FilesystemList({
     Key? key,
@@ -37,6 +38,7 @@ class FilesystemList extends StatelessWidget {
     this.multiSelect = false,
     this.themeData,
     this.textDirection,
+    required this.rootDirectories,
   }) : super(key: key);
 
   Future<List<FileSystemEntity>> _getDirContents() {
@@ -87,7 +89,16 @@ class FilesystemList extends StatelessWidget {
         if (snapshot.hasData) {
           var chs = <Widget>[];
 
-          if (!isRoot) {
+          bool hasDuplicate = false;
+          for (Directory directory in rootDirectories) {
+            if (rootDirectory.absolute.path
+                    .startsWith(directory.absolute.path) &&
+                rootDirectory.absolute.path != directory.absolute.path) {
+              hasDuplicate = true;
+            }
+          }
+
+          if (!isRoot || hasDuplicate) {
             chs.add(_topNavigation()); // up/back one level
             chs.add(Divider(color: Colors.grey, height: 1));
           }
