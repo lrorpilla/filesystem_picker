@@ -338,7 +338,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                 child: Container(
                   margin: EdgeInsets.only(top: 50),
                   child: ListTile(
-                    title: Text('Select Directory',
+                    title: Text('Local Storage',
                         style: (widget.themeData ?? Theme.of(context))
                             .primaryTextTheme
                             .headline6),
@@ -547,10 +547,6 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                     }
                   : null,
             )),
-            VerticalDivider(
-              width: 1,
-              color: (widget.themeData ?? Theme.of(context)).accentColor,
-            ),
             Expanded(
                 child: TextButton.icon(
               style: TextButton.styleFrom(

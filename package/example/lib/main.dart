@@ -104,9 +104,9 @@ class _DemoPageState extends State<DemoPage> {
           await Permission.storage.request().isGranted,
       pickText: 'Select File',
       themeData: Theme.of(context).copyWith(
-          primaryColor: Colors.green,
-          primaryColorLight: Colors.green.shade200,
-          primaryColorDark: Colors.green.shade700),
+          primaryColor: Colors.red,
+          primaryColorLight: Colors.red.shade200,
+          primaryColorDark: Colors.red.shade700),
     );
 
     if (paths != null) {
