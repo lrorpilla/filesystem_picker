@@ -330,28 +330,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Visibility(
-            visible: widget.rootDirectories.length > 1,
-            child: Material(
-              color: (widget.themeData ?? Theme.of(context)).primaryColor,
-              child: SafeArea(
-                child: Container(
-                  margin: EdgeInsets.only(top: 50),
-                  child: ListTile(
-                    title: Text('Local Storage',
-                        style: (widget.themeData ?? Theme.of(context))
-                            .primaryTextTheme
-                            .headline6),
-                    leading: Icon(Icons.storage,
-                        color: Theme.of(context)
-                            .primaryTextTheme
-                            .headline6!
-                            .color),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          SizedBox(height: 48),
           Flexible(
             fit: FlexFit.loose,
             child: Visibility(
@@ -363,12 +342,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                 itemBuilder: (_, index) {
                   var r = _roots.elementAt(index);
                   return RadioListTile<int>(
-                    secondary: selectedPaths.keys
-                            .any((ee) => ee.startsWith(r.absolutePath))
-                        ? Icon(Icons.library_add_check,
-                            color: (widget.themeData ?? Theme.of(context))
-                                .primaryColorDark)
-                        : null,
+                    activeColor: Colors.red,
                     title: Text(r.label.toUpperCase()),
                     value: _roots.indexOf(r),
                     groupValue: _roots
@@ -458,10 +432,6 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
               ),
             ),
           ),
-          Container(
-            height: 1,
-            color: (widget.themeData ?? Theme.of(context)).primaryColor,
-          ),
         ],
       ),
     );
@@ -523,7 +493,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
     }
 
     return BottomAppBar(
-      color: (widget.themeData ?? Theme.of(context)).primaryColor,
+      color: (widget.themeData!.cardColor),
       child: Container(
         height: 50,
         child: Row(

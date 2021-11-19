@@ -35,11 +35,9 @@ class FilesystemListTile extends StatelessWidget {
 
   Widget _leading(BuildContext context) {
     Icon ic;
-    var col = isSelected
-        ? (themeData ?? Theme.of(context)).primaryColorLight
-        : (item is File
-            ? (themeData ?? Theme.of(context)).unselectedWidgetColor
-            : (folderIconColor ?? (themeData ?? Theme.of(context)).primaryColor));
+    var col = (item is File
+        ? (themeData ?? Theme.of(context)).unselectedWidgetColor
+        : (folderIconColor ?? (themeData ?? Theme.of(context)).primaryColor));
     if (item is Directory) {
       ic = Icon(
         Icons.folder,
@@ -74,7 +72,7 @@ class FilesystemListTile extends StatelessWidget {
         child: Icon(
           isSelected ? Icons.check_box : Icons.check_box_outline_blank,
           color: isSelected
-              ? (themeData ?? Theme.of(context)).primaryColorLight
+              ? Colors.red
               : (themeData ?? Theme.of(context)).disabledColor.withOpacity(0.5),
         ),
       ));
@@ -114,7 +112,7 @@ class FilesystemListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       key: Key(item.absolute.path),
-      color: isSelected ? (themeData ?? Theme.of(context)).primaryColorDark : Colors.transparent,
+      color: isSelected ? Colors.red.withOpacity(0.2) : Colors.transparent,
       child: InkWell(
           onTap: () {
             if (item is Directory) {
@@ -123,6 +121,16 @@ class FilesystemListTile extends StatelessWidget {
               onSelect(
                   item.absolute.path, isSelected, FileSystemEntityType.file);
             }
+          },
+          onLongPress: () {
+            onSelect(
+                item.absolute.path,
+                isSelected,
+                item is File
+                    ? FileSystemEntityType.file
+                    : item is Directory
+                        ? FileSystemEntityType.directory
+                        : FileSystemEntityType.notFound);
           },
           child: SizedBox(
             height: 60,
