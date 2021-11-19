@@ -32,13 +32,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'FileSystem Picker Demo',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.red,
         accentColor: Colors.white,
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.teal,
+          buttonColor: Colors.red,
           textTheme: ButtonTextTheme.accent,
         ),
-        toggleableActiveColor: Colors.teal,
+        toggleableActiveColor: Colors.red,
         brightness: _brightness,
       ),
       home: DemoPage(),
