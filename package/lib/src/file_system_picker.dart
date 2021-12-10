@@ -227,66 +227,70 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
             data: widget.themeData ?? Theme.of(context),
             child: Directionality(
               textDirection: widget.textDirection ?? Directionality.of(context),
-              child: Scaffold(
-                  appBar: AppBar(
-                    title: Text(widget.title ?? directoryName!),
-                    leading: Builder(
-                      builder: (ctx) {
-                        return IconButton(
-                          icon: Icon(widget.rootDirectories.length > 1 ||
-                                  widget.multiSelect
-                              ? Icons.menu
-                              : Icons.close),
-                          onPressed: () {
-                            if (widget.rootDirectories.length > 1 ||
-                                widget.multiSelect) {
-                              Scaffold.of(ctx).openDrawer();
-                            } else {
-                              Navigator.of(context).pop();
-                            }
-                          },
-                        );
-                      },
-                    ),
-                    actions: selectedPaths.isNotEmpty && widget.multiSelect
-                        ? [
-                            IconButton(
-                                tooltip: 'Select/Unselect All',
-                                icon: Icon(Icons.select_all),
-                                onPressed: () {
-                                  items.forEach((p) {
-                                    if (widget.fsType == FilesystemType.all ||
-                                        (widget.fsType == FilesystemType.file &&
-                                            p.type ==
-                                                FileSystemEntityType.file) ||
-                                        (widget.fsType ==
-                                                FilesystemType.folder &&
-                                            p.type ==
-                                                FileSystemEntityType
-                                                    .directory)) {
-                                      if (toggleSelectAll == false) {
-                                        selectedPaths[p.absolutePath] = p.type;
-                                      } else {
-                                        selectedPaths.remove(p.absolutePath);
+              child: SafeArea(
+                child: Scaffold(
+                    appBar: AppBar(
+                      title: Text(widget.title ?? directoryName!),
+                      leading: Builder(
+                        builder: (ctx) {
+                          return IconButton(
+                            icon: Icon(widget.rootDirectories.length > 1 ||
+                                    widget.multiSelect
+                                ? Icons.menu
+                                : Icons.close),
+                            onPressed: () {
+                              if (widget.rootDirectories.length > 1 ||
+                                  widget.multiSelect) {
+                                Scaffold.of(ctx).openDrawer();
+                              } else {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      actions: selectedPaths.isNotEmpty && widget.multiSelect
+                          ? [
+                              IconButton(
+                                  tooltip: 'Select/Unselect All',
+                                  icon: Icon(Icons.select_all),
+                                  onPressed: () {
+                                    items.forEach((p) {
+                                      if (widget.fsType == FilesystemType.all ||
+                                          (widget.fsType ==
+                                                  FilesystemType.file &&
+                                              p.type ==
+                                                  FileSystemEntityType.file) ||
+                                          (widget.fsType ==
+                                                  FilesystemType.folder &&
+                                              p.type ==
+                                                  FileSystemEntityType
+                                                      .directory)) {
+                                        if (toggleSelectAll == false) {
+                                          selectedPaths[p.absolutePath] =
+                                              p.type;
+                                        } else {
+                                          selectedPaths.remove(p.absolutePath);
+                                        }
                                       }
-                                    }
-                                  });
+                                    });
 
-                                  setState(() {
-                                    toggleSelectAll = !toggleSelectAll;
-                                  });
-                                })
-                          ]
-                        : null,
-                    bottom: _buildBreadCrumb(context),
-                  ),
-                  drawerEnableOpenDragGesture: false,
-                  drawer:
-                      widget.rootDirectories.length > 1 || widget.multiSelect
-                          ? _buildDrawer(context)
+                                    setState(() {
+                                      toggleSelectAll = !toggleSelectAll;
+                                    });
+                                  })
+                            ]
                           : null,
-                  body: _buildBody(context),
-                  bottomNavigationBar: _buildBottomButtons(context)),
+                      bottom: _buildBreadCrumb(context),
+                    ),
+                    drawerEnableOpenDragGesture: false,
+                    drawer:
+                        widget.rootDirectories.length > 1 || widget.multiSelect
+                            ? _buildDrawer(context)
+                            : null,
+                    body: _buildBody(context),
+                    bottomNavigationBar: _buildBottomButtons(context)),
+              ),
             )),
       ),
     );
