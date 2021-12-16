@@ -230,7 +230,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
               child: SafeArea(
                 child: Scaffold(
                     appBar: AppBar(
-                      title: Text(widget.title ?? directoryName!),
+                      title: Text(widget.title ?? directoryName ?? ''),
                       leading: Builder(
                         builder: (ctx) {
                           return IconButton(
