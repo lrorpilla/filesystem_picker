@@ -135,7 +135,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _requestPermission();
       if (widget.rootDirectories.isEmpty) {
         throw Exception("rootDirectories can't be empty.");
