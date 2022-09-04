@@ -33,14 +33,14 @@ class FilenameText extends StatelessWidget {
             text: isDirectory == false && hasExtension
                 ? fseName.split(extension)[0]
                 : fseName,
-            style: txTheme,
+            style: txTheme?.copyWith(color: isActive ? Colors.red : isUsed ? Colors.grey : null),
           ),
         ),
         Text(
           extension,
           maxLines: 1,
           overflow: TextOverflow.visible,
-          style: txTheme,
+          style: txTheme?.copyWith(color: isActive ? Colors.red : isUsed ? Colors.grey : null),
         ),
       ],
     );
