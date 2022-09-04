@@ -49,7 +49,7 @@ class FilesystemListTile extends StatelessWidget {
         size: FileIconHelper.iconSize,
       );
     } else {
-      ic = FileIconHelper.getIcon(item.path, col);
+      ic = FileIconHelper.getIcon(item.path, isActive ? Colors.red : isUsed ? Colors.grey : col);
     }
 
     return ic;
