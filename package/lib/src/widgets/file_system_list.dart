@@ -147,11 +147,14 @@ class FilesystemList extends StatelessWidget {
               );
             });
           }
-          return ListView(
+          return ListView.builder(
+            itemCount: chs.length,
+            itemBuilder: (context, index) {
+              return chs[index];
+            },
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             semanticChildCount: chs.length,
-            children: chs,
           );
         }
         return const Center(

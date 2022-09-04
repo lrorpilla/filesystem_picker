@@ -139,17 +139,17 @@ class FilesystemListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15),
+                  padding: EdgeInsets.only(left: 15, right: 12),
                   child: _leading(context),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(12),
                     child: _main(context),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(12),
                   child: _trailing(context),
                 )
               ],

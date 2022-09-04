@@ -1,3 +1,4 @@
+import 'package:filesystem_picker/src/widgets/marquee.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 
@@ -23,19 +24,16 @@ class FilenameText extends StatelessWidget {
     return Row(
       children: <Widget>[
         Flexible(
-          child: Text(
-            isDirectory == false && hasExtension
+          child: JidoujishoMarquee(
+            blankSpace: 50,
+            text: isDirectory == false && hasExtension
                 ? fseName.split(extension)[0]
                 : fseName,
-            textScaleFactor: 1.2,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: txTheme,
           ),
         ),
         Text(
           extension,
-          textScaleFactor: 1.2,
           maxLines: 1,
           overflow: TextOverflow.visible,
           style: txTheme,
