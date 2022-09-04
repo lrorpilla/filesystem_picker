@@ -12,6 +12,8 @@ class FilesystemListTile extends StatelessWidget {
   final FileSystemEntity item;
   final Color? folderIconColor;
   final ValueChanged<Directory> onChange;
+  final bool isUsed;
+  final bool isActive;
   final bool multiSelect;
   final bool isSelected;
   final bool subItemsSelected;
@@ -24,6 +26,8 @@ class FilesystemListTile extends StatelessWidget {
       this.fsType = FilesystemType.all,
       required this.item,
       this.folderIconColor,
+      required this.isUsed,
+      required this.isActive,
       required this.onChange,
       required this.multiSelect,
       required this.isSelected,
@@ -99,6 +103,8 @@ class FilesystemListTile extends StatelessWidget {
   Widget _main(BuildContext context) {
     var tx = FilenameText(
       item.path,
+      isUsed: isUsed,
+      isActive: isActive,
       isDirectory: item is Directory,
       textStyle: isSelected
           ? (themeData ?? Theme.of(context)).primaryTextTheme.bodyText1

@@ -23,6 +23,8 @@ class FilesystemList extends StatelessWidget {
   final ThemeData? themeData;
   final TextDirection? textDirection;
   final List<Directory> rootDirectories;
+  final List<String>? usedFiles;
+  final String? currentActiveFile;
 
   FilesystemList({
     Key? key,
@@ -32,6 +34,8 @@ class FilesystemList extends StatelessWidget {
     this.fsType = FilesystemType.all,
     this.folderIconColor,
     this.allowedExtensions,
+    required this.usedFiles,
+    required this.currentActiveFile,
     required this.onChange,
     required this.onSelect,
     required this.selectedItems,
@@ -122,6 +126,8 @@ class FilesystemList extends StatelessWidget {
             dirs.followedBy(files).forEach((fse) {
               chs.add(
                 FilesystemListTile(
+                  isActive: currentActiveFile == fse.path,
+                  isUsed: usedFiles != null && usedFiles!.contains(fse.path),
                   fsType: fsType,
                   item: fse,
                   folderIconColor: folderIconColor,

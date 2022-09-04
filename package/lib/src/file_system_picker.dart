@@ -48,6 +48,8 @@ class FilesystemPicker extends StatefulWidget {
     String? cancelText = 'Cancel',
     String? permissionText,
     String? title,
+    List<String>? usedFiles,
+    String? currentActiveFile,
     Color? folderIconColor,
     List<String>? allowedExtensions,
     RequestPermission? requestPermission,
@@ -63,6 +65,8 @@ class FilesystemPicker extends StatefulWidget {
           multiSelect: multiSelect,
           pickText: pickText,
           cancelText: cancelText,
+          usedFiles: usedFiles,
+          currentActiveFile: currentActiveFile,
           permissionText: permissionText,
           title: title,
           folderIconColor:
@@ -87,6 +91,8 @@ class FilesystemPicker extends StatefulWidget {
   final String? permissionText;
   final String? title;
   final Color? folderIconColor;
+  final List<String>? usedFiles;
+  final String? currentActiveFile;
   final List<String>? allowedExtensions;
   final RequestPermission? requestPermission;
   final ThemeData? themeData;
@@ -101,6 +107,8 @@ class FilesystemPicker extends StatefulWidget {
     this.pickText,
     this.cancelText,
     this.permissionText,
+    this.usedFiles,
+    this.currentActiveFile,
     this.title,
     this.folderIconColor,
     this.allowedExtensions,
@@ -418,6 +426,8 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                     title: FilenameText(
                       pathString,
                       isDirectory: fseType == FileSystemEntityType.directory,
+                      isUsed: false,
+                      isActive: false,
                     ),
                     onTap: () {
                       if (pathString.startsWith(rootDirectory!.absolutePath) ==
@@ -459,6 +469,8 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
         isRoot: (directory!.absolute.path == rootDirectory!.absolutePath),
         rootDirectory: directory!,
         rootDirectories: widget.rootDirectories,
+        usedFiles: widget.usedFiles,
+        currentActiveFile: widget.currentActiveFile,
         multiSelect: widget.multiSelect,
         fsType: widget.fsType,
         folderIconColor: widget.folderIconColor,

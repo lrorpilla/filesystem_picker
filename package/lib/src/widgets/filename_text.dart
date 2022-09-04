@@ -6,11 +6,15 @@ import 'package:path/path.dart' as path;
 class FilenameText extends StatelessWidget {
   final String filename;
   final bool isDirectory;
+  final bool isUsed;
+  final bool isActive;
   final TextStyle? textStyle;
 
   const FilenameText(
     this.filename, {
     required this.isDirectory,
+    required this.isUsed,
+    required this.isActive,
     this.textStyle,
     Key? key,
   }) : super(key: key);
