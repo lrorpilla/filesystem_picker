@@ -56,7 +56,8 @@ class FilesystemList extends StatelessWidget {
           if ((file is File) &&
               (allowedExtensions != null) &&
               (allowedExtensions!.isNotEmpty)) {
-            if (!allowedExtensions!.contains(path.extension(file.path))) return;
+            if (!allowedExtensions!
+                .contains(path.extension(file.path.toLowerCase()))) return;
           }
           items.add(file);
         }
