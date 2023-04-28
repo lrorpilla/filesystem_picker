@@ -355,7 +355,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                   var r = _roots.elementAt(index);
                   return RadioListTile<int>(
                     activeColor: Colors.red,
-                    title: Text(r.label.toUpperCase()),
+                    title: Text(r.label),
                     value: _roots.indexOf(r),
                     groupValue: _roots
                         .map((e) => e.absolutePath)

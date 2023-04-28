@@ -63,7 +63,8 @@ class FilesystemList extends StatelessWidget {
         }
       },
       onDone: () {
-        items.sort((a, b) => a.path.compareTo(b.path));
+        items.sort(
+            (a, b) => a.path.toLowerCase().compareTo(b.path.toLowerCase()));
         completer.complete(items);
       },
     );
