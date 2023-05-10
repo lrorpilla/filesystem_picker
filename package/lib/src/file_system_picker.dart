@@ -14,7 +14,7 @@ import 'package:filesystem_picker/src/widgets/file_system_list.dart';
 import 'package:filesystem_picker/src/widgets/filename_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as pt;
 
 /// FileSystem file or folder picker dialog.
@@ -232,74 +232,76 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
       onWillPop: _handleBackAction,
       child: Builder(
         builder: (_) => Theme(
-            data: widget.themeData ?? Theme.of(context),
-            child: Directionality(
-              textDirection: widget.textDirection ?? Directionality.of(context),
-              child: SafeArea(
-                child: Scaffold(
-                    appBar: AppBar(
-                      title: Text(widget.title ?? directoryName ?? ''),
-                      leading: Builder(
-                        builder: (ctx) {
-                          return IconButton(
-                            icon: Icon(widget.rootDirectories.length > 1 ||
-                                    widget.multiSelect
-                                ? Icons.menu
-                                : Icons.close),
-                            onPressed: () {
-                              if (widget.rootDirectories.length > 1 ||
-                                  widget.multiSelect) {
-                                Scaffold.of(ctx).openDrawer();
-                              } else {
-                                Navigator.of(context).pop();
-                              }
-                            },
-                          );
+          data: widget.themeData ?? Theme.of(context),
+          child: Directionality(
+            textDirection: widget.textDirection ?? Directionality.of(context),
+            child: Scaffold(
+                appBar: AppBar(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarIconBrightness:
+                        widget.themeData?.brightness == Brightness.dark
+                            ? Brightness.light
+                            : Brightness.dark,
+                  ),
+                  title: Text(widget.title ?? directoryName ?? ''),
+                  leading: Builder(
+                    builder: (ctx) {
+                      return IconButton(
+                        icon: Icon(widget.rootDirectories.length > 1 ||
+                                widget.multiSelect
+                            ? Icons.menu
+                            : Icons.close),
+                        onPressed: () {
+                          if (widget.rootDirectories.length > 1 ||
+                              widget.multiSelect) {
+                            Scaffold.of(ctx).openDrawer();
+                          } else {
+                            Navigator.of(context).pop();
+                          }
                         },
-                      ),
-                      actions: selectedPaths.isNotEmpty && widget.multiSelect
-                          ? [
-                              IconButton(
-                                  tooltip: 'Select/Unselect All',
-                                  icon: Icon(Icons.select_all),
-                                  onPressed: () {
-                                    items.forEach((p) {
-                                      if (widget.fsType == FilesystemType.all ||
-                                          (widget.fsType ==
-                                                  FilesystemType.file &&
-                                              p.type ==
-                                                  FileSystemEntityType.file) ||
-                                          (widget.fsType ==
-                                                  FilesystemType.folder &&
-                                              p.type ==
-                                                  FileSystemEntityType
-                                                      .directory)) {
-                                        if (toggleSelectAll == false) {
-                                          selectedPaths[p.absolutePath] =
-                                              p.type;
-                                        } else {
-                                          selectedPaths.remove(p.absolutePath);
-                                        }
-                                      }
-                                    });
+                      );
+                    },
+                  ),
+                  actions: selectedPaths.isNotEmpty && widget.multiSelect
+                      ? [
+                          IconButton(
+                              tooltip: 'Select/Unselect All',
+                              icon: Icon(Icons.select_all),
+                              onPressed: () {
+                                items.forEach((p) {
+                                  if (widget.fsType == FilesystemType.all ||
+                                      (widget.fsType == FilesystemType.file &&
+                                          p.type ==
+                                              FileSystemEntityType.file) ||
+                                      (widget.fsType == FilesystemType.folder &&
+                                          p.type ==
+                                              FileSystemEntityType.directory)) {
+                                    if (toggleSelectAll == false) {
+                                      selectedPaths[p.absolutePath] = p.type;
+                                    } else {
+                                      selectedPaths.remove(p.absolutePath);
+                                    }
+                                  }
+                                });
 
-                                    setState(() {
-                                      toggleSelectAll = !toggleSelectAll;
-                                    });
-                                  })
-                            ]
-                          : null,
-                      bottom: _buildBreadCrumb(context),
-                    ),
-                    drawerEnableOpenDragGesture: false,
-                    drawer:
-                        widget.rootDirectories.length > 1 || widget.multiSelect
-                            ? _buildDrawer(context)
-                            : null,
-                    body: _buildBody(context),
-                    bottomNavigationBar: _buildBottomButtons(context)),
-              ),
-            )),
+                                setState(() {
+                                  toggleSelectAll = !toggleSelectAll;
+                                });
+                              })
+                        ]
+                      : null,
+                  bottom: _buildBreadCrumb(context),
+                ),
+                drawerEnableOpenDragGesture: false,
+                drawer: widget.rootDirectories.length > 1 || widget.multiSelect
+                    ? _buildDrawer(context)
+                    : null,
+                body: SafeArea(
+                  child: _buildBody(context),
+                ),
+                bottomNavigationBar: _buildBottomButtons(context)),
+          ),
+        ),
       ),
     );
   }
@@ -320,6 +322,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
           ),
         ),
         child: Breadcrumbs<String>(
+          themeData: widget.themeData,
           items: (!permissionRequesting && permissionAllowed)
               ? pathItems
                   .map((path) => BreadcrumbItem<String>(

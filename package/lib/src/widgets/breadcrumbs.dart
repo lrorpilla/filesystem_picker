@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 
 import '../utils/models/breadcrumb_item.dart';
 import '../utils/extensions/listview_extended.dart';
@@ -19,12 +22,15 @@ class Breadcrumbs<T> extends StatelessWidget {
 
   final ScrollController _scrollController = ScrollController();
 
+  final ThemeData? themeData;
+
   Breadcrumbs({
     Key? key,
     required this.items,
     this.height = 50,
     this.textColor,
     this.onSelect,
+    this.themeData,
   }) : super(key: key);
 
   void _scrollToEnd() {
@@ -34,8 +40,6 @@ class Breadcrumbs<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
-
-    final defaultTextColor = Theme.of(context).textTheme.button!.color;
 
     return ShaderMask(
       shaderCallback: (Rect bounds) {
@@ -52,6 +56,7 @@ class Breadcrumbs<T> extends StatelessWidget {
             : Alignment.topLeft,
         height: height,
         child: ListViewExtended.separatedWithHeaderFooter(
+          physics: const BouncingScrollPhysics(),
           controller: _scrollController,
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -66,13 +71,24 @@ class Breadcrumbs<T> extends StatelessWidget {
               child: TextButton(
                 style: TextButton.styleFrom(
                     primary: (index == (items.length - 1))
-                        ? (textColor ?? defaultTextColor)
-                        : (textColor ?? defaultTextColor)!.withOpacity(0.75)),
+                        ? (themeData ?? Theme.of(context))
+                            .textTheme
+                            .bodyMedium!
+                            .color
+                        : (themeData ?? Theme.of(context))
+                            .textTheme
+                            .bodyMedium!
+                            .color!
+                            .withOpacity(0.75)),
                 onPressed: () {
                   items[index].onSelect?.call(items[index].data);
                   onSelect?.call(items[index].data);
                 },
-                child: Text(items[index].text),
+                child: Text(
+                  path.basename(
+                    Directory(items[index].data.toString()).absolute.path,
+                  ),
+                ),
               ),
             );
           },
@@ -80,7 +96,11 @@ class Breadcrumbs<T> extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(
               Icons.chevron_right,
-              color: (textColor ?? defaultTextColor)!.withOpacity(0.45),
+              color: (themeData ?? Theme.of(context))
+                  .textTheme
+                  .bodyMedium!
+                  .color!
+                  .withOpacity(0.45),
             ),
           ),
           headerBuilder: (_) => SizedBox(
