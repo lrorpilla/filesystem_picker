@@ -313,7 +313,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
         data: ThemeData(
           textTheme: TextTheme(
             button: TextStyle(
-              color: AppBarTheme.of(context).textTheme?.headline6?.color ??
+              color: Theme.of(context).textTheme.headline6?.color ??
                   (widget.themeData ?? Theme.of(context))
                       .primaryTextTheme
                       .headline6
@@ -522,7 +522,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
             Expanded(
                 child: TextButton.icon(
               style: TextButton.styleFrom(
-                primary: AppBarTheme.of(context).textTheme?.headline6?.color ??
+                primary: Theme.of(context).textTheme.headline6?.color ??
                     Theme.of(context).primaryTextTheme.headline6?.color,
               ),
               icon: Icon(Icons.cancel),
@@ -539,7 +539,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
             Expanded(
                 child: TextButton.icon(
               style: TextButton.styleFrom(
-                primary: AppBarTheme.of(context).textTheme?.headline6?.color ??
+                primary: Theme.of(context).textTheme.headline6?.color ??
                     Theme.of(context).primaryTextTheme.headline6?.color,
               ),
               icon: Icon(Icons.check_circle),
